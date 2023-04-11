@@ -12,7 +12,7 @@ require (
 	github.com/zmap/rc2 v0.0.0-20190804163417-abaa70531248
 	github.com/zmap/zcertificate v0.0.0-20190521191901-30e388164f71
 	golang.org/x/crypto v0.0.0-20180904163835-0709b304e793
-	golang.org/x/net v0.0.0-20190301231341-16b79f2e4e95
+	golang.org/x/net v0.9.0
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127
 )
 
@@ -21,7 +21,7 @@ require (
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/kr/text v0.1.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
-	golang.org/x/text v0.3.8 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
