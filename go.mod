@@ -7,7 +7,7 @@ require (
 	github.com/mreiferson/go-httpclient v0.0.0-20160630210159-31f0106b4474
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
 	github.com/sirupsen/logrus v1.9.0
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.8.2
 	github.com/weppos/publicsuffix-go v0.4.0
 	github.com/zmap/rc2 v0.0.0-20190804163417-abaa70531248
 	github.com/zmap/zcertificate v0.0.0-20190521191901-30e388164f71
@@ -23,5 +23,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
