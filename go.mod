@@ -6,7 +6,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf
 	github.com/mreiferson/go-httpclient v0.0.0-20160630210159-31f0106b4474
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
-	github.com/sirupsen/logrus v1.9.0
+	github.com/sirupsen/logrus v1.9.2
 	github.com/stretchr/testify v1.8.3
 	github.com/weppos/publicsuffix-go v0.30.0
 	github.com/zmap/rc2 v0.0.0-20190804163417-abaa70531248
