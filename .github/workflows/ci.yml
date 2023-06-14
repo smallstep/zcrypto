@@ -15,6 +15,7 @@ jobs:
   ci:
     uses: smallstep/workflows/.github/workflows/goCI.yml@main
     with:
+      only-latest-golang: false
       run-lint: false
       run-test: false
       run-build: false
