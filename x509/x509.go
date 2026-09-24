@@ -187,6 +187,9 @@ const (
 	SHA384WithRSAPSS
 	SHA512WithRSAPSS
 	ED25519SIG
+	MLDSA44
+	MLDSA65
+	MLDSA87
 )
 
 func (algo SignatureAlgorithm) isRSAPSS() bool {
@@ -215,6 +218,9 @@ var algoName = [...]string{
 	ECDSAWithSHA384:  "ECDSA-SHA384",
 	ECDSAWithSHA512:  "ECDSA-SHA512",
 	ED25519SIG:       "Ed25519",
+	MLDSA44:          "ML-DSA-44",
+	MLDSA65:          "ML-DSA-65",
+	MLDSA87:          "ML-DSA-87",
 }
 
 func (algo SignatureAlgorithm) String() string {
@@ -336,6 +342,9 @@ var signatureAlgorithmDetails = []struct {
 	{ECDSAWithSHA384, oidSignatureECDSAWithSHA384, ECDSA, crypto.SHA384},
 	{ECDSAWithSHA512, oidSignatureECDSAWithSHA512, ECDSA, crypto.SHA512},
 	{ED25519SIG, oidKeyEd25519, ED25519, crypto.Hash(0)},
+	{MLDSA44, oidKeyMLDSA44, MLDSA, crypto.Hash(0) /* no pre-hashing */},
+	{MLDSA65, oidKeyMLDSA65, MLDSA, crypto.Hash(0) /* no pre-hashing */},
+	{MLDSA87, oidKeyMLDSA87, MLDSA, crypto.Hash(0) /* no pre-hashing */},
 }
 
 // pssParameters reflects the parameters in an AlgorithmIdentifier that
@@ -478,6 +487,8 @@ func getPublicKeyAlgorithmFromOID(oid asn1.ObjectIdentifier) PublicKeyAlgorithm 
 		return ED25519
 	case oid.Equal(oidKeyX25519):
 		return X25519
+	case oid.Equal(oidKeyMLDSA44), oid.Equal(oidKeyMLDSA65), oid.Equal(oidKeyMLDSA87):
+		return MLDSA
 	}
 	return UnknownPublicKeyAlgorithm
 }
@@ -511,6 +522,22 @@ var (
 var (
 	oidKeyX25519  = asn1.ObjectIdentifier{1, 3, 101, 110}
 	oidKeyEd25519 = asn1.ObjectIdentifier{1, 3, 101, 112}
+)
+
+// RFC 9881, 2. Algorithm Identifiers. The same OIDs identify both ML-DSA
+// public keys and ML-DSA signatures, and their parameters MUST be absent.
+//
+//	id-ml-dsa-44 OBJECT IDENTIFIER ::= { joint-iso-itu-t(2)
+//	    country(16) us(840) organization(1) gov(101) csor(3)
+//	    nistAlgorithm(4) sigAlgs(3) id-ml-dsa-44(17) }
+//
+//	id-ml-dsa-65 OBJECT IDENTIFIER ::= { ... sigAlgs(3) id-ml-dsa-65(18) }
+//
+//	id-ml-dsa-87 OBJECT IDENTIFIER ::= { ... sigAlgs(3) id-ml-dsa-87(19) }
+var (
+	oidKeyMLDSA44 = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 3, 17}
+	oidKeyMLDSA65 = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 3, 18}
+	oidKeyMLDSA87 = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 3, 19}
 )
 
 func namedCurveFromOID(oid asn1.ObjectIdentifier) elliptic.Curve {
