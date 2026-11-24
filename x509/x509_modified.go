@@ -98,6 +98,7 @@ const (
 	ECDSA
 	ED25519
 	X25519
+	MLDSA
 	total_key_algorithms
 )
 
@@ -108,6 +109,7 @@ var keyAlgorithmNames = []string{
 	"ECDSA",
 	"Ed25519",
 	"X25519",
+	"ML-DSA",
 }
 
 func maxValidationLevel(a, b CertValidationLevel) CertValidationLevel {
@@ -480,6 +482,8 @@ func CheckSignatureFromKey(publicKey interface{}, algo SignatureAlgorithm, signe
 		return InsecureAlgorithmError(algo)
 	case ED25519SIG:
 		hashType = 0
+	case MLDSA44, MLDSA65, MLDSA87:
+		return checkMLDSASignature(publicKey, algo, signed, signature)
 	default:
 		return ErrUnsupportedAlgorithm
 	}
@@ -705,6 +709,23 @@ func parsePublicKey(algo PublicKeyAlgorithm, keyData *publicKeyInfo) (interface{
 			return nil, errors.New("x509: trailing data after X25519 public key")
 		}
 		return p, nil
+	case MLDSA:
+		// Unlike the standard library, keys with parameters present are
+		// accepted, matching the leniency applied to RSA keys above.
+		oid := keyData.Algorithm.Algorithm
+		var size int
+		switch {
+		case oid.Equal(oidKeyMLDSA44):
+			size = mldsa44PublicKeySize
+		case oid.Equal(oidKeyMLDSA65):
+			size = mldsa65PublicKeySize
+		case oid.Equal(oidKeyMLDSA87):
+			size = mldsa87PublicKeySize
+		}
+		if len(asn1Data) != size {
+			return nil, fmt.Errorf("x509: invalid %s public key length %d", GetSignatureAlgorithmFromAI(keyData.Algorithm), len(asn1Data))
+		}
+		return parseMLDSAPublicKey(oid, asn1Data), nil
 	default:
 		return nil, nil
 	}
